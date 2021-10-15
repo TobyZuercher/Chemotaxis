@@ -17,6 +17,7 @@ class Food
  
   void regen()
   {
+    //if isAlive = false make value increase :)
     isAlive = true;
     foodX = (int)(Math.random()* 1600 - 800);
     while(Math.abs(foodX) < 100)
@@ -107,7 +108,7 @@ void draw()
   {
     orb[i].show();
   }
-  agarEat();
+  //agar.grow(1000);
   agar.show();
 }
 
@@ -119,8 +120,8 @@ void agarEat()
     {
       if(Math.abs(orb[x].foodX) <= agar.d*cos(radians(i)) && Math.abs(orb[x].foodY) <= agar.d*sin(radians(i)))
       {
-        orb[x].isAlive = false;
         agar.grow(orb[x].value);
+        orb[x].isAlive = false;
       }
     }
   }
