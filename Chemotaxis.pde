@@ -122,6 +122,7 @@ void agarEat()
       {
         agar.grow(orb[x].value);
         orb[x].isAlive = false;
+        orb[x].regen();
       }
     }
   }
