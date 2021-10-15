@@ -12,7 +12,7 @@ class Food
     while(Math.abs(foodY) < 100)
       foodY = (int)(Math.random()* 1600 - 800);
     isAlive = true;
-    value = (float)(Math.random() * 3200 - 1200);
+    value = (float)(Math.random() * 400 - 150);
   }
  
   void regen()
