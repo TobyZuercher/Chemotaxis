@@ -51,10 +51,11 @@ class Runner
 
 class Cell
 {
-  float area;
+  float area, d;
   Cell()
   {
     area = 500;
+    d = 2*(sqrt(area/PI));
   }
  
   void grow(float amount)
@@ -64,7 +65,7 @@ class Cell
  
   void show()
   {
-    ellipse(0, 0, 2*(sqrt(area/PI)), 2*(sqrt(area/PI)));
+    ellipse(0, 0, d, d);
   }
 }
 
@@ -108,6 +109,21 @@ void draw()
   }
   //agar.grow(1000);
   agar.show();
+}
+
+void agarEat()
+{
+  for(int x = 0; x < orb.length; x++)
+  {
+    for(int i = 0; i < 360; i++)
+    {
+      if(Math.abs(orb[x].foodX) <= agar.d*cos(radians(i)) && Math.abs(orb[x].foodY) <= agar.d*sin(radians(i)))
+      {
+        orb[x].isAlive = false;
+        agar.grow(orb[x].value);
+      }
+    }
+  }
 }
 
 void moveScreen()
