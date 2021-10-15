@@ -107,7 +107,7 @@ void draw()
   {
     orb[i].show();
   }
-  //agar.grow(1000);
+  agarEat();
   agar.show();
 }
 
