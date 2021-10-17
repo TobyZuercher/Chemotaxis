@@ -154,8 +154,7 @@ void draw()
   background(200);
   translate(width/2, height/2);
   moveScreen();
-  stroke(0, 0, 0, 100);
-  fill(0, 0, 0, 100);
+  stroke(100, 100, 100);
   for(int i = 0; i < lr.length; i++)
   {
     if(lr[i].y > height/2 && !(yTotal - 200 > (5000 - height/2))) lr[i].y -= height;
@@ -165,8 +164,7 @@ void draw()
     if(ud[i].x < -width/2 && !(xTotal + 200 < (-5000 + width/2))) ud[i].x += width;
     ud[i].drawLinesUD();
   }
-  stroke(0, 0, 0, 255);
-  fill(255);
+  stroke(0);
   for(int i = 0; i < orb.length; i++)
   {
     orb[i].show();
