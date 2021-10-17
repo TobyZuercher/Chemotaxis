@@ -125,7 +125,6 @@ Cell agar = new Cell();
 Grid [] lr, ud;
 void setup()
 {
-  colorMode(RGB, 255, 255, 255, 255);
   orb = new Food[1562];
   lr = new Grid[height/160 - 1];
   ud = new Grid[width/160 - 1];
@@ -154,7 +153,7 @@ void draw()
   background(200);
   translate(width/2, height/2);
   moveScreen();
-  fill(100);
+  stroke(0, 0, 0, 100);
   for(int i = 0; i < lr.length; i++)
   {
     if(lr[i].y > height/2 && !(yTotal - 200 > (5000 - height/2))) lr[i].y -= height;
@@ -164,7 +163,7 @@ void draw()
     if(ud[i].x < -width/2 && !(xTotal + 200 < (-5000 + width/2))) ud[i].x += width;
     ud[i].drawLinesUD();
   }
-  fill(0);
+  stroke(0, 0, 0, 255);
   for(int i = 0; i < orb.length; i++)
   {
     orb[i].show();
