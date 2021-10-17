@@ -145,6 +145,7 @@ void setup()
   strokeWeight(2);
   translate(width/2, height/2);
   agar.show();
+  noLoop();
 }
 
 boolean isUp, isDown, isLeft, isRight;
