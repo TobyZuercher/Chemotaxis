@@ -145,7 +145,6 @@ void setup()
   strokeWeight(2);
   translate(width/2, height/2);
   agar.show();
-  noLoop();
 }
 
 boolean isUp, isDown, isLeft, isRight;
@@ -155,7 +154,7 @@ void draw()
   background(200);
   translate(width/2, height/2);
   moveScreen();
-  stroke(100, 100, 100);
+  fill(100);
   for(int i = 0; i < lr.length; i++)
   {
     if(lr[i].y > height/2 && !(yTotal - 200 > (5000 - height/2))) lr[i].y -= height;
@@ -165,7 +164,7 @@ void draw()
     if(ud[i].x < -width/2 && !(xTotal + 200 < (-5000 + width/2))) ud[i].x += width;
     ud[i].drawLinesUD();
   }
-  stroke(0);
+  fill(0);
   for(int i = 0; i < orb.length; i++)
   {
     orb[i].show();
