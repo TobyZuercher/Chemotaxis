@@ -155,6 +155,7 @@ void draw()
   translate(width/2, height/2);
   moveScreen();
   stroke(0, 0, 0, 100);
+  fill(0, 0, 0, 100);
   for(int i = 0; i < lr.length; i++)
   {
     if(lr[i].y > height/2 && !(yTotal - 200 > (5000 - height/2))) lr[i].y -= height;
@@ -165,6 +166,7 @@ void draw()
     ud[i].drawLinesUD();
   }
   stroke(0, 0, 0, 255);
+  fill(255);
   for(int i = 0; i < orb.length; i++)
   {
     orb[i].show();
