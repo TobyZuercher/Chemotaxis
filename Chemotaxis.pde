@@ -125,6 +125,7 @@ Cell agar = new Cell();
 Grid [] lr, ud;
 void setup()
 {
+  colorMode(RGB, 255, 255, 255, 255);
   orb = new Food[1562];
   lr = new Grid[height/160 - 1];
   ud = new Grid[width/160 - 1];
