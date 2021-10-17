@@ -5,56 +5,41 @@ class Food
   boolean isAlive;
   Food()
   {
-    foodX = (float)(Math.random()* 1600 - 800);
-    while(Math.abs(foodX) < 100)
-      foodX = (float)(Math.random()* 1600 - 800);
-    foodY = (float)(Math.random()* 1600 - 800);
-    while(Math.abs(foodY) < 100)
-      foodY = (float)(Math.random()* 1600 - 800);
+    foodX = (int)(Math.random()* 10001 - 5000);
+    foodY = (int)(Math.random()* 10001 - 5000);
+    
     isAlive = true;
     value = (float)(Math.random() * 450) + (Math.abs(foodX)/2) + (Math.abs(foodY)/2);
     d = 2*(sqrt(value/PI));
   }
-  
-  void createGen()
-  {
-    foodX = (float)(Math.random()* 1600 - 800);
-    while(Math.abs(foodX) < 100)
-      foodX = (float)(Math.random()* 1600 - 800);
-    foodY = (float)(Math.random()* 1600 - 800);
-    while(Math.abs(foodY) < 100)
-      foodY = (float)(Math.random()* 1600 - 800);
-  }
  
   void regen()
   {
-    int spawnRange = (int)(Math.random() * 4) + 1;
+    float outX = 0;
+    float outY = 0;
+    
+    if(xTotal > 5000 - width/2)
+      outX = xTotal - (5000 - width/2);
+    if(xTotal < -5000 + width/2)
+      outX = xTotal + (5000 + width/2);
+      
+    if(yTotal > 5000 - height/2)
+      outY = yTotal - (5000 - height/2);
+    if(yTotal < -5000 + height/2)
+      outY = yTotal + (5000 + height/2);
+      
+      
+    int[] pos = spawnZone(-5000 - (int)xTotal - (int)outX, -width/2, width/2, 5000 - (int)xTotal - (int)outX, -5000 - (int)yTotal - (int)outY, -height/2, height/2, 5000 - (int)yTotal - (int)outY);
+    
+    foodX = pos[0];
+    foodY = pos[1];
+    
     if(isAlive == false)
       {
-         value += (float)(Math.random() * 100);
+         value += (float)(Math.random() * 450 + 300) + (Math.abs(foodX)/2) + (Math.abs(foodY)/2);
          isAlive = true;
          d = 2*(sqrt(value/PI));
       }
-    if(spawnRange == 1)
-    {
-      foodX = (float)(Math.random()* 400 - 800);
-      foodY = (float)(Math.random()* 1200 - 800);
-    }
-    if(spawnRange == 2)
-    {
-      foodX = (float)(Math.random()* 1200 - 400);
-      foodY = (float)(Math.random()* 400 - 800);
-    }
-    if(spawnRange == 3)
-    {
-      foodX = (float)(Math.random()* 400 + 400);
-      foodY = (float)(Math.random()* 1200 - 400);
-    }
-    if(spawnRange == 4)
-    {
-      foodX = (float)(Math.random()* 1200 - 800);
-      foodY = (float)(Math.random()* 400 + 400);
-    }
   }
  
   void show()
@@ -118,12 +103,20 @@ class Grid
   
   void drawLinesLR()
   {
-    line(-400, y, 400, y);
+    if(yTotal > 5000)
+      y = 5000;
+    if(yTotal < -5000)
+      y = -5000;
+    line(x - 5000, y, x + 5000, y);
   }
   
   void drawLinesUD()
   {
-    line(x, -400, x, 400);
+    if(xTotal > 5000)
+      x = 5000;
+    if(xTotal < -5000)
+      x = -5000;
+    line(x, y - 5000, x, y + 5000);
   }
 }
 
@@ -132,35 +125,21 @@ Cell agar = new Cell();
 Grid [] lr, ud;
 void setup()
 {
-  orb = new Food[80];
-  lr = new Grid[5];
-  ud = new Grid[5];
+  orb = new Food[1562];
+  lr = new Grid[height/160 - 1];
+  ud = new Grid[width/160 - 1];
   fill(0);
   for(int i = 0; i < lr.length; i++)
   {
-    lr[i] = new Grid(0, -400 + i*200);
+    lr[i] = new Grid(0, -height/2 + i*200);
     lr[i].drawLinesLR();
-    ud[i] = new Grid(-400 + i*200, 0);
+    ud[i] = new Grid(-width/2 + i*200, 0);
     ud[i].drawLinesUD();
-  }
+  } 
   fill(255);
   for(int i = 0; i < orb.length; i++)
-  {
     orb[i] = new Food();
-    for(int x = 0; x < i; x++)
-    {
-      if(Math.abs(orb[i].foodX - orb[x].foodX) <= 10)
-      {
-        orb[i].createGen();
-        x = 0;
-      }
-      if(Math.abs(orb[i].foodY - orb[x].foodY) <= 10)
-      {
-        orb[i].createGen();
-        x = 0;
-      }
-    }
-  }
+    
   size(800, 800);
   strokeWeight(2);
   translate(width/2, height/2);
@@ -177,11 +156,11 @@ void draw()
   stroke(0, 0, 0, 100);
   for(int i = 0; i < lr.length; i++)
   {
-    if(lr[i].y > 400) lr[i].y -= 800;
-    if(lr[i].y < -400) lr[i].y += 800;
+    if(lr[i].y > height/2 && !(yTotal - 200 > (5000 - height/2))) lr[i].y -= height;
+    if(lr[i].y < -height/2 && !(yTotal + 200 < (-5000 + height/2))) lr[i].y += height;
     lr[i].drawLinesLR();
-    if(ud[i].x > 400) ud[i].x -= 800;
-    if(ud[i].x < -400) ud[i].x += 800;
+    if(ud[i].x > width/2 && !(xTotal - 200 > (5000 - width/2))) ud[i].x -= width;
+    if(ud[i].x < -width/2 && !(xTotal + 200 < (-5000 + width/2))) ud[i].x += width;
     ud[i].drawLinesUD();
   }
   stroke(0, 0, 0, 255);
@@ -191,7 +170,6 @@ void draw()
   }
   agarEat();
   agar.show();
-  //System.out.println(ate);
 }
 
 void agarEat()
@@ -210,107 +188,73 @@ void agarEat()
   }
 }
 
+float xTotal = 0;
+float yTotal = 0;
 void moveScreen()
 {
+  float xOffset = 0;
+  float yOffset = 0;
   if(isUp == true)
   {
-    for(int i = 0; i < orb.length; i++)
+    if(yTotal > 4996 && yTotal < 5000)
+      yOffset = 5000 - yTotal;
+    else if (!(yTotal >= 5000))
     {
       if(isRight == true || isLeft == true)
-        orb[i].foodY += sqrt(2);
-      else orb[i].foodY += 2;
-    }
-    for(int i = 0; i < lr.length; i++)
-    {
-      if(isRight == true || isLeft == true)
-      {
-        lr[i].y += sqrt(2);
-        ud[i].y += sqrt(2);
-      }
-      else
-      {
-        lr[i].y += 2;
-        ud[i].y += 2;
-      }
+        yOffset += 2 * sqrt(2);
+      else yOffset += 4;
     }
   }
   if(isDown == true)
   {
-    for(int i = 0; i < orb.length; i++)
+    if(yTotal < -4996 && yTotal > -5000)
+      yOffset = -5000 - yTotal;
+    else if (!(yTotal <= -5000))
     {
       if(isRight == true || isLeft == true)
-        orb[i].foodY -= sqrt(2);
-      else orb[i].foodY -= 2;
-    }
-    for(int i = 0; i < lr.length; i++)
-    {
-      if(isRight == true || isLeft == true)
-      {
-        lr[i].y -= sqrt(2);
-        ud[i].y -= sqrt(2);
-      }
-      else
-      {
-        lr[i].y -= 2;
-        ud[i].y -= 2;
-      }
+        yOffset -= 2 * sqrt(2);
+      else yOffset -= 4;
     }
   }
   if(isRight == true)
   {
-    for(int i = 0; i < orb.length; i++)
+    if(xTotal < -4996 && xTotal > -5000)
+      xOffset = -5000 - xTotal;
+    else if (!(xTotal <= -5000))
     {
       if(isUp == true || isDown == true)
-        orb[i].foodX -= sqrt(2);
-      else orb[i].foodX -= 2;
-    }
-    for(int i = 0; i < lr.length; i++)
-    {
-      if(isUp == true || isDown == true)
-      {
-        lr[i].x -= sqrt(2);
-        ud[i].x -= sqrt(2);
-      }
-      else
-      {
-        lr[i].x -= 2;
-        ud[i].x -= 2;
-      }
+        xOffset -= 2 * sqrt(2);
+      else xOffset -= 4;
     }
   }
   if(isLeft == true)
   {
-    for(int i = 0; i < orb.length; i++)
+    if(xTotal > 4996 && xTotal < 5000)
+      xOffset = 5000 - xTotal;
+    else if (!(xTotal >= 5000))
     {
       if(isUp == true || isDown == true)
-        orb[i].foodX += sqrt(2);
-      else orb[i].foodX += 2;
-    }
-    for(int i = 0; i < lr.length; i++)
-    {
-      if(isUp == true || isDown == true)
-      {
-        lr[i].x += sqrt(2);
-        ud[i].x += sqrt(2);
-      }
-      else
-      {
-        lr[i].x += 2;
-        ud[i].x += 2;
-      }
+        xOffset += 2 * sqrt(2);
+      else xOffset += 4;
     }
   }
-    for(int i = 0; i < orb.length; i++)
-    {
-      if(orb[i].foodY < -800)
-        orb[i].foodY = 800;
-      if(orb[i].foodY > 800)
-        orb[i].foodY = -800;
-      if(orb[i].foodX < -800)
-        orb[i].foodX = 800;
-      if(orb[i].foodX > 800)
-        orb[i].foodX = -800;
-    }
+  
+  xTotal += xOffset;
+  yTotal += yOffset;
+  
+  for(int i = 0; i < orb.length; i++)
+  {
+     orb[i].foodX += xOffset;
+     orb[i].foodY += yOffset;
+  }
+  for(int i = 0; i < lr.length; i++)
+  {
+     lr[i].x += xOffset;
+     ud[i].x += xOffset;
+     lr[i].y += yOffset;
+     ud[i].y += yOffset;
+  }
+  
 }
 
 void keyPressed()
@@ -326,10 +270,6 @@ void keyReleased()
 boolean moveDir(char c, boolean b)
 {
   switch(c) {
-    case ' ':
-      //agar.grow(1000);
-      return b;
-     
     case 'W':
       return isUp = b;
     case 'w':
@@ -352,6 +292,33 @@ boolean moveDir(char c, boolean b)
      
     default: return b;
   }
+}
+
+int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, int min2Y, int max2Y)
+{
+  int[] zone = new int[2];
+  
+  zone[0] = (int)(Math.random()* (maxX-minX) + minX);
+  
+  int[] randArrayY = new int[(max1Y-min1Y) + (max2Y-min2Y) + 2];
+  int num = 0;
+  if(zone[0] > max2X && zone[0] < min2X)
+  {
+    for(int i = min1Y; i <= max1Y; i++)
+    {
+      randArrayY[num] = i;
+      num++;
+    }
+    for(int i = min2Y; i <= max2Y; i++)
+    {
+      randArrayY[num] = i;
+      num++;
+    }
+    zone[1] = randArrayY[(int)(Math.random() * randArrayY.length)];
+  }
+  else zone[1] = (int)(Math.random()* (max2Y-min1Y) + min1Y);
+  
+  return zone;
 }
 
 //make Runner work properly, eat and disappear
