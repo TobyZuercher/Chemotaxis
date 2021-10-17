@@ -322,3 +322,8 @@ int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, 
 }
 
 //make Runner work properly, eat and disappear
+//make lines work in github
+//add minimap
+//add splitting
+//add big cells that split when ate
+//add actual enemy cells
