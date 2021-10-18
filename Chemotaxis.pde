@@ -29,7 +29,7 @@ class Food
       outY = yTotal + (5000 + height/2);
       
       
-    int[] pos = spawnZone(-5000 - (int)xTotal - (int)outX, -width/2, width/2, 5000 - (int)xTotal - (int)outX, -5000 - (int)yTotal - (int)outY, -height/2, height/2, 5000 - (int)yTotal - (int)outY);
+    int[] pos = spawnZone(-5000 - (int)xTotal - (int)outX, -width/2, width/2, 5000 - (int)xTotal - (int)outX, -5000 - (int)yTotal - (int)outY, -height/2, 5000 - (int)yTotal - (int)outY);
     
     foodX = pos[0];
     foodY = pos[1];
@@ -194,6 +194,17 @@ void moveScreen()
 {
   float xOffset = 0;
   float yOffset = 0;
+  float angle = 0;
+  if(!(mouseX == 0))
+    angle = atan2(mouseY-height/2, mouseX-width/2);
+    
+  if (!(yTotal >= 5000) && (!(xTotal >= 5000)) && !(yTotal <= -5000) && (!(xTotal <= -5000))) //add else-ifs to check if its close enough, basically if the jump would bring you past then reduce it
+  {
+    xOffset = 4*-cos(angle);
+    yOffset = 4*-sin(angle);
+  }
+  
+  
   if(isUp == true)
   {
     if(yTotal > 4996 && yTotal < 5000)
@@ -294,29 +305,20 @@ boolean moveDir(char c, boolean b)
   }
 }
 
-int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, int min2Y, int max2Y) // dont use arrays, just do a smaller random and add some if its more than the top of the screen
+int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, int max2Y)
 {
   int[] zone = new int[2];
   
   zone[0] = (int)(Math.random()* (maxX-minX) + minX);
   
-  int[] randArrayY = new int[(max1Y-min1Y) + (max2Y-min2Y) + 2];
-  int num = 0;
+  int randGen = (int)(Math.random()* (max2Y-min1Y) + min1Y);
+  
   if(zone[0] > max2X && zone[0] < min2X)
   {
-    for(int i = min1Y; i <= max1Y; i++)
-    {
-      randArrayY[num] = i;
-      num++;
-    }
-    for(int i = min2Y; i <= max2Y; i++)
-    {
-      randArrayY[num] = i;
-      num++;
-    }
-    zone[1] = randArrayY[(int)(Math.random() * randArrayY.length)];
+    if(randGen > max1Y)
+      randGen += height;
   }
-  else zone[1] = (int)(Math.random()* (max2Y-min1Y) + min1Y);
+  zone[1] = randGen;
   
   return zone;
 }
@@ -325,5 +327,6 @@ int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, 
 //make lines work in github
 //add minimap
 //add splitting
-//add big cells that split when ate
+//add big cells that split when ate -> tha green ones
 //add actual enemy cells
+//movement towards mouse
