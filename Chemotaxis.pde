@@ -294,7 +294,7 @@ boolean moveDir(char c, boolean b)
   }
 }
 
-int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, int min2Y, int max2Y)
+int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, int min2Y, int max2Y) // dont use arrays, just do a smaller random and add some if its more than the top of the screen
 {
   int[] zone = new int[2];
   
