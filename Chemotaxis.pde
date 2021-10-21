@@ -107,7 +107,8 @@ class Grid
       y = 5000;
     if(yTotal < -5000)
       y = -5000;
-    line(x - 5000, y, x + 5000, y);
+    rect(-5000, y, 10000, 1);
+    //line(x - 5000, y, x + 5000, y);
   }
   
   void drawLinesUD()
@@ -116,7 +117,8 @@ class Grid
       x = 5000;
     if(xTotal < -5000)
       x = -5000;
-    line(x, y - 5000, x, y + 5000);
+    rect(x, -5000, 1, 10000);
+    //line(x, y - 5000, x, y + 5000);
   }
 }
 
