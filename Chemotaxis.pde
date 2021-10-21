@@ -178,7 +178,7 @@ void agarEat()
   {
     for(int i = 0; i < 90; i++)
     {
-      if(Math.abs(orb[x].foodX) <= (agar.d/2) * cos(radians(i)) - (orb[x].d/8) && Math.abs(orb[x].foodY) <= (agar.d/2) * sin(radians(i)) - (orb[x].d/8) && agar.area > (orb[x].value)*1.05) //make based off of size of orb, not radius of cell-- 
+      if(Math.abs(orb[x].foodX) <= (agar.d/2) * cos(radians(i)) - (orb[x].d/8) && Math.abs(orb[x].foodY) <= (agar.d/2) * sin(radians(i)) - (orb[x].d/8) && agar.area > (orb[x].value)*1.05)
       {
         agar.grow(orb[x].value/5);
         orb[x].kill();
@@ -198,57 +198,17 @@ void moveScreen()
   if(!(mouseX == 0))
     angle = atan2(mouseY-height/2, mouseX-width/2);
     
-  if (!(yTotal >= 5000) && (!(xTotal >= 5000)) && !(yTotal <= -5000) && (!(xTotal <= -5000))) //add else-ifs to check if its close enough, basically if the jump would bring you past then reduce it
-  {
     xOffset = 4*-cos(angle);
     yOffset = 4*-sin(angle);
-  }
   
-  
-  if(isUp == true)
-  {
-    if(yTotal > 4996 && yTotal < 5000)
-      yOffset = 5000 - yTotal;
-    else if (!(yTotal >= 5000))
-    {
-      if(isRight == true || isLeft == true)
-        yOffset += 2 * sqrt(2);
-      else yOffset += 4;
-    }
-  }
-  if(isDown == true)
-  {
-    if(yTotal < -4996 && yTotal > -5000)
-      yOffset = -5000 - yTotal;
-    else if (!(yTotal <= -5000))
-    {
-      if(isRight == true || isLeft == true)
-        yOffset -= 2 * sqrt(2);
-      else yOffset -= 4;
-    }
-  }
-  if(isRight == true)
-  {
-    if(xTotal < -4996 && xTotal > -5000)
-      xOffset = -5000 - xTotal;
-    else if (!(xTotal <= -5000))
-    {
-      if(isUp == true || isDown == true)
-        xOffset -= 2 * sqrt(2);
-      else xOffset -= 4;
-    }
-  }
-  if(isLeft == true)
-  {
-    if(xTotal > 4996 && xTotal < 5000)
-      xOffset = 5000 - xTotal;
-    else if (!(xTotal >= 5000))
-    {
-      if(isUp == true || isDown == true)
-        xOffset += 2 * sqrt(2);
-      else xOffset += 4;
-    }
-  }
+  if(yOffset + yTotal > 5000)
+    yOffset = 5000 - yTotal;
+  if(yOffset + yTotal < -5000)
+    yOffset = -5000 - yTotal;
+  if(xOffset + xTotal > 5000)
+    xOffset = 5000 - xTotal;
+  if(xOffset + xTotal < -5000)
+    xOffset = -5000 - xTotal;
   
   xTotal += xOffset;
   yTotal += yOffset;
@@ -266,43 +226,6 @@ void moveScreen()
      ud[i].y += yOffset;
   }
   
-}
-
-void keyPressed()
-{
-  moveDir(key, true);
-}
-
-void keyReleased()
-{
-  moveDir(key, false);
-}
-
-boolean moveDir(char c, boolean b)
-{
-  switch(c) {
-    case 'W':
-      return isUp = b;
-    case 'w':
-      return isUp = b;
-     
-    case 'A':
-      return isLeft = b;
-    case 'a':
-      return isLeft = b;
-     
-    case 'S':
-      return isDown = b;
-    case 's':
-      return isDown = b;
-     
-    case 'D':
-      return isRight = b;
-    case 'd':
-      return isRight = b;
-     
-    default: return b;
-  }
 }
 
 int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, int max2Y)
