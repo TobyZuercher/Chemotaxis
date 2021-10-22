@@ -159,11 +159,11 @@ void draw()
   fill(150);
   for(int i = 0; i < lr.length; i++)
   {
-    if(lr[i].y > height/2 && !(yTotal - 200 > (5000 - height/2))) lr[i].y -= height;
-    if(lr[i].y < -height/2 && !(yTotal + 200 < (-5000 + height/2))) lr[i].y += height;
+    if(lr[i].y > height/2 && yTotal - 200 <= (5000 - height/2)) lr[i].y -= height;
+    if(lr[i].y < -height/2 && yTotal + 200 >= (-5000 + height/2)) lr[i].y += height;
     lr[i].drawLinesLR();
-    if(ud[i].x > width/2 && !(xTotal - 200 > (5000 - width/2))) ud[i].x -= width;
-    if(ud[i].x < -width/2 && !(xTotal + 200 < (-5000 + width/2))) ud[i].x += width;
+    if(ud[i].x > width/2 && xTotal - 200 <= (5000 - width/2)) ud[i].x -= width;
+    if(ud[i].x < -width/2 && xTotal + 200 >= (-5000 + width/2)) ud[i].x += width;
     ud[i].drawLinesUD();
   }
   fill(255);
