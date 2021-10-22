@@ -44,6 +44,7 @@ class Food
  
   void show()
   {
+    fill(((value - 500)%3600)/10, 360, 360);
     if(isAlive == true)
       ellipse(foodX, foodY, d, d);
   }
@@ -87,37 +88,38 @@ class Cell
  
   void show()
   {
+    fill(((area - 500)%36000)/100, 360, 360);
     ellipse(0, 0, d, d);
   }
 }
 
 class Grid
 {
-  float x;
-  float y;
+  float xg;
+  float yg;
   Grid(float xPos, float yPos)
   {
-    x = xPos;
-    y = yPos;
+    xg = xPos;
+    yg = yPos;
   }
   
   void drawLinesLR()
   {
     if(yTotal > 5000)
-      y = 5000;
+      yg = 5000;
     if(yTotal < -5000)
-      y = -5000;
-    rect(-5000, y, 10000, 1);
+      yg = -5000;
+    rect(xg -5000, yg, 10000, 1);
     //line(x - 5000, y, x + 5000, y);
   }
   
   void drawLinesUD()
   {
     if(xTotal > 5000)
-      x = 5000;
+      xg = 5000;
     if(xTotal < -5000)
-      x = -5000;
-    rect(x, -5000, 1, 10000);
+      xg = -5000;
+    rect(xg, yg -5000, 1, 10000);
     //line(x, y - 5000, x, y + 5000);
   }
 }
@@ -127,6 +129,7 @@ Cell agar = new Cell();
 Grid [] lr, ud;
 void setup()
 {
+  colorMode(HSB);
   orb = new Food[1562];
   lr = new Grid[height/160 - 1];
   ud = new Grid[width/160 - 1];
@@ -159,11 +162,11 @@ void draw()
   fill(150);
   for(int i = 0; i < lr.length; i++)
   {
-    if(lr[i].y > height/2 && yTotal - 200 <= (5000 - height/2)) lr[i].y -= height;
-    if(lr[i].y < -height/2 && yTotal + 200 >= (-5000 + height/2)) lr[i].y += height;
+    if(lr[i].yg > height/2 && !(yTotal - 200 > (5000 - height/2))) lr[i].yg -= height;
+    if(lr[i].yg < -height/2 && !(yTotal + 200 < (-5000 + height/2))) lr[i].yg += height;
     lr[i].drawLinesLR();
-    if(ud[i].x > width/2 && xTotal - 200 <= (5000 - width/2)) ud[i].x -= width;
-    if(ud[i].x < -width/2 && xTotal + 200 >= (-5000 + width/2)) ud[i].x += width;
+    if(ud[i].xg > width/2 && !(xTotal - 200 > (5000 - width/2))) ud[i].xg -= width;
+    if(ud[i].xg < -width/2 && !(xTotal + 200 < (-5000 + width/2))) ud[i].xg += width;
     ud[i].drawLinesUD();
   }
   fill(255);
@@ -224,10 +227,10 @@ void moveScreen()
   }
   for(int i = 0; i < lr.length; i++)
   {
-     lr[i].x += xOffset;
-     ud[i].x += xOffset;
-     lr[i].y += yOffset;
-     ud[i].y += yOffset;
+     lr[i].xg += xOffset;
+     ud[i].xg += xOffset;
+     lr[i].yg += yOffset;
+     ud[i].yg += yOffset;
   }
   
 }
@@ -252,8 +255,3 @@ int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, 
 
 //make Runner work properly, eat and disappear
 //make lines work in github
-//add minimap
-//add splitting
-//add big cells that split when ate -> tha green ones
-//add actual enemy cells
-//movement towards mouse
