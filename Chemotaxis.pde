@@ -3,6 +3,7 @@ class Food
   float foodX, foodY;
   float value, d;
   boolean isAlive;
+  int col;
   Food()
   {
     foodX = (int)(Math.random()* 10001 - 5000);
@@ -11,6 +12,7 @@ class Food
     isAlive = true;
     value = (float)(Math.random() * 450) + (Math.abs(foodX)/2) + (Math.abs(foodY)/2);
     d = 2*(sqrt(value/PI));
+    col = (int)(Math.random() * 361);
   }
  
   void regen()
@@ -44,7 +46,7 @@ class Food
  
   void show()
   {
-    fill(((value - 500)%3600)/10, 360, 360);
+    fill(col, 360, 360);
     if(isAlive == true)
       ellipse(foodX, foodY, d, d);
   }
@@ -88,7 +90,7 @@ class Cell
  
   void show()
   {
-    fill(((area - 500)%36000)/100, 360, 360);
+    fill(((d - 25)%360), 360, 360);
     ellipse(0, 0, d, d);
   }
 }
