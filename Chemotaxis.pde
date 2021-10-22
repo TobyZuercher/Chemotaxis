@@ -60,16 +60,65 @@ class Food
 class Runner
 {
   float runX, runY;
+  float value, d;
   boolean isAlive;
+  int col;
+ 
   Runner()
   {
-    runX = (float)(Math.random()*401 + 50);
-    runY = (float)(Math.random()*401 + 50);
+    runX = (int)(Math.random()* 10001 - 5000);
+    runY = (int)(Math.random()* 10001 - 5000);
+    
+    isAlive = true;
+    value = (float)(Math.random() * 900 + 400) + (Math.abs(runX)/2) + (Math.abs(runY)/2);
+    d = 2*(sqrt(value/PI));
+    col = (int)(Math.random() * 361);
   }
- 
+  
+  void regen()
+  {
+    float outX = 0;
+    float outY = 0;
+    
+    if(xTotal > 5000 - width/2)
+      outX = xTotal - (5000 - width/2);
+    if(xTotal < -5000 + width/2)
+      outX = xTotal + (5000 + width/2);
+      
+    if(yTotal > 5000 - height/2)
+      outY = yTotal - (5000 - height/2);
+    if(yTotal < -5000 + height/2)
+      outY = yTotal + (5000 + height/2);
+      
+      
+    int[] pos = spawnZone(-5000 - (int)xTotal - (int)outX, -width/2, width/2, 5000 - (int)xTotal - (int)outX, -5000 - (int)yTotal - (int)outY, -height/2, 5000 - (int)yTotal - (int)outY);
+    
+    runX = pos[0];
+    runY = pos[1];
+    
+    if(isAlive == false)
+      {
+         value += (float)(Math.random() * 450 + 300) + (Math.abs(runX)/2) + (Math.abs(runY)/2);
+         isAlive = true;
+         d = 2*(sqrt(value/PI));
+      }
+  }
+  
   void run()
   {
-    //make run away from character
+    //if(  //run away if within sightrange + 100
+  }
+  
+  void show()
+  {
+    fill(col, 360, 360);
+    if(isAlive == true)
+      ellipse(runX, runY, d, d);
+  }
+  
+  void kill()
+  {
+    isAlive = false;
   }
 }
 
