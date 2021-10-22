@@ -107,6 +107,7 @@ class Grid
   
   void drawLinesLR()
   {
+    noStroke();
     if(yTotal > 5000)
       yg = 5000;
     if(yTotal < -5000)
@@ -117,6 +118,7 @@ class Grid
   
   void drawLinesUD()
   {
+    noStroke();
     if(xTotal > 5000)
       xg = 5000;
     if(xTotal < -5000)
