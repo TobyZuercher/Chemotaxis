@@ -214,8 +214,8 @@ void setup()
   rectMode(CORNER);
   orb = new Food[1562];
   enemy = new Runner[390];
-  lr = new Grid[height/160 - 1];
-  ud = new Grid[width/160 - 1];
+  lr = new Grid[4];
+  ud = new Grid[4];
   fill(0);
   for(int i = 0; i < lr.length; i++)
   {
