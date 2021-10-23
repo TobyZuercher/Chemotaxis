@@ -242,7 +242,7 @@ void draw()
   background(200);
   translate(width/2, height/2);
   moveScreen();
-  stroke(0, 0, 0, 100);
+  //stroke(0, 0, 0, 100);
   fill(150);
   for(int i = 0; i < lr.length; i++)
   {
@@ -254,7 +254,7 @@ void draw()
     ud[i].drawLinesUD();
   }
   fill(255);
-  stroke(0, 0, 0, 255);
+  stroke(0);
   for(int i = 0; i < orb.length; i++)
   {
     orb[i].show();
