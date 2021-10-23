@@ -360,6 +360,3 @@ int[] spawnZone(int minX, int max2X, int min2X, int maxX, int min1Y, int max1Y, 
   
   return zone;
 }
-
-//make Runner work properly, eat and disappear
-//make lines work in github
