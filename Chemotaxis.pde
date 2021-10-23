@@ -115,8 +115,8 @@ class Runner
     float moveY = 0;
     if(runX < width/2 + 100 && runX > -width/2 - 100 && runY < height/2 + 100 && runY > -height/2 - 100)  //run away if within sightrange + 100
     {
-      moveX = (float)(Math.random()* 2 + 2.5)*cos(angle);
-      moveY = (float)(Math.random()* 2 + 2.5)*sin(angle);
+      moveX = (float)(Math.random()* 2 + 1)*cos(angle);
+      moveY = (float)(Math.random()* 2 + 1)*sin(angle);
   
       if(moveY + yMoved > 5000)
         moveY = 0;
