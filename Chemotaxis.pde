@@ -59,15 +59,19 @@ class Food
 
 class Runner
 {
-  float runX, runY;
+  float runX, runY, yMoved, xMoved;
   float value, d;
   boolean isAlive;
   int col;
+  float angle;
  
   Runner()
   {
     runX = (int)(Math.random()* 10001 - 5000);
     runY = (int)(Math.random()* 10001 - 5000);
+    
+    xMoved = runX;
+    yMoved = runY;
     
     isAlive = true;
     value = (float)(Math.random() * 900 + 400) + (Math.abs(runX)/2) + (Math.abs(runY)/2);
@@ -106,7 +110,29 @@ class Runner
   
   void run()
   {
-    //if(  //run away if within sightrange + 100
+    angle = atan2(runY, runX);
+    float moveX = 0;
+    float moveY = 0;
+    if(runX < width/2 + 100 && runX > -width/2 - 100 && runY < height/2 + 100 && runY > -height/2 - 100)  //run away if within sightrange + 100
+    {
+      moveX = (float)(Math.random()* 2 + 2.5)*cos(angle);
+      moveY = (float)(Math.random()* 2 + 2.5)*sin(angle);
+  
+      if(moveY + yMoved > 5000)
+        moveY = 0;
+      if(moveY + yMoved < -5000)
+        moveY = 0;
+      if(moveX + xMoved > 5000)
+        moveX = 0;
+      if(moveX + xMoved < -5000)
+        moveX = 0;
+      
+      yMoved += moveY;
+      xMoved += moveX;
+      
+      runX += moveX;
+      runY += moveY;
+    }
   }
   
   void show()
@@ -178,12 +204,15 @@ class Grid
 }
 
 Food [] orb;
+Runner [] enemy;
 Cell agar = new Cell();
 Grid [] lr, ud;
+
 void setup()
 {
   colorMode(HSB);
   orb = new Food[1562];
+  enemy = new Runner[390];
   lr = new Grid[height/160 - 1];
   ud = new Grid[width/160 - 1];
   fill(0);
@@ -197,6 +226,8 @@ void setup()
   fill(255);
   for(int i = 0; i < orb.length; i++)
     orb[i] = new Food();
+  for(int i = 0; i < enemy.length; i++)
+    enemy[i] = new Runner();
     
   size(800, 800);
   strokeWeight(2);
@@ -228,6 +259,11 @@ void draw()
   {
     orb[i].show();
   }
+  for(int i = 0; i < enemy.length; i++)
+  {
+    enemy[i].run();
+    enemy[i].show();
+  }
   agarEat();
   agar.show();
 }
@@ -243,6 +279,19 @@ void agarEat()
         agar.grow(orb[x].value/5);
         orb[x].kill();
         orb[x].regen();
+      }
+    }
+  }
+  
+  for(int x = 0; x < enemy.length; x++)
+  {
+    for(int i = 0; i < 90; i++)
+    {
+      if(Math.abs(enemy[x].runX) <= (agar.d/2) * cos(radians(i)) - (enemy[x].d/8) && Math.abs(enemy[x].runY) <= (agar.d/2) * sin(radians(i)) - (enemy[x].d/8) && agar.area > (enemy[x].value)*1.05)
+      {
+        agar.grow(enemy[x].value/3);
+        enemy[x].kill();
+        enemy[x].regen();
       }
     }
   }
@@ -277,6 +326,11 @@ void moveScreen()
   {
      orb[i].foodX += xOffset;
      orb[i].foodY += yOffset;
+  }
+  for(int i = 0; i < enemy.length; i++)
+  {
+     enemy[i].runX += xOffset;
+     enemy[i].runY += yOffset;
   }
   for(int i = 0; i < lr.length; i++)
   {
