@@ -211,6 +211,7 @@ Grid [] lr, ud;
 void setup()
 {
   colorMode(HSB);
+  rectMode(CORNER);
   orb = new Food[1562];
   enemy = new Runner[390];
   lr = new Grid[height/160 - 1];
